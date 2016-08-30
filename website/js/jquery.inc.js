@@ -22,7 +22,7 @@ $(document).ready(function() {
         _gaq.push(['_trackEvent', activeTab+' tab', 'click', 'Logo']);
         switch(activeTab){
             case 'files':
-                path='your-files'
+                path='files'
             break;
             case 'transfers':
                 path='transfers';
