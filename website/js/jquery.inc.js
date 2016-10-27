@@ -35,7 +35,7 @@ $(document).ready(function() {
         chrome.tabs.query(
             {
                 url:"https://put.io/*"
-            }, 
+            },
             function(data){
                 if(data.length>0){
                     chrome.tabs.update(data[0].id, {
@@ -130,7 +130,7 @@ $(document).ready(function() {
 
     $(document.body).on('click', '.go_to_file' ,function(e){
         e.preventDefault();
-        var file_url = "https://put.io/file/"+$(this).attr("value");
+        var file_url = "https://put.io/files/"+$(this).attr("value");
         _gaq.push(['_trackEvent', 'transfers tab', 'click', 'Show File on Put.io']);
         chrome.tabs.create({
                 url:file_url
@@ -368,21 +368,7 @@ $(document).ready(function() {
         if(title){
             _gaq.push(['_trackEvent', 'search tab', category, title]);
             switch (category) {
-                case 'kickasstorrents':
-                    $("#search_result").html('<div id="kat_result"></div>');
-                    Kickasstorrents.Files.search(title,filter,function(data){
-                        Putio_Function.displayKatResult(data);
-                    })
-                break;
                 case 'piratebay':
-                if (localStorage["old_api"]=="true"){
-                    _gaq.push(['_trackEvent', 'search tab', 'old_pb_api','true']);
-                    $("#search_result").html('<div id="old_pb_result"></div>');
-                    OldPiratebay.Files.search(title,filter,function(data){
-                        Putio_Function.displayPbResult(data,true);
-                    })
-                }
-                else
                     _gaq.push(['_trackEvent', 'search tab', 'old_pb_api','false']);
                     $("#search_result").html('<div id="pb_result"></div>');
                     Piratebay.Files.search(title,filter,function(data){
@@ -448,7 +434,7 @@ $(document).ready(function() {
                 }
             })
         })
-        
+
     });
 
     $(document.body).on('mouseleave', '#file_list th:nth-child(4), #file_list td:nth-child(3), #result_list td:nth-child(3), #subtitle_result_list td:nth-child(2)' ,function(e){
@@ -507,7 +493,7 @@ $(document).ready(function() {
             Putio_Function.displayLastMovies(data);
         })
     });
-    
+
     $(document.body).on('click', '.page-link' ,function(e){
         var page = $(this).attr("href");
         var page=page.replace("#page-","");
@@ -653,13 +639,6 @@ $(document).ready(function() {
         }
         else if(search_category=='piratebay'){
             placeholder="Search on The Pirate Bay";
-            $(".search_filter").prop('disabled', false);
-            $("#submit_search").text('Search')
-            $('#send_link').hide();
-            $('#search_title').prop('disabled', false);
-        }
-        else if(search_category=='kickasstorrents'){
-            placeholder="Search on KickassTorrents";
             $(".search_filter").prop('disabled', false);
             $("#submit_search").text('Search')
             $('#send_link').hide();

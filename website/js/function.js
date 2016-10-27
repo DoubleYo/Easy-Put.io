@@ -174,74 +174,6 @@ Putio_Function = {
             $("#pb_result").html(content);
     },
 
-    displayKatResult : function(result){
-        var content='';
-
-        if (result.error){
-            content+='<div class="alert alert-danger"><h4>Sorry!</h4>';
-            content+=result.status+' '+result.statusText+'<div>';
-        }
-        else if(result.channel && result.channel.item.length>0){
-            content+='<table class="table-condensed table-striped" id="result_list">';
-            content+='<thead>';
-            content+='<tr class="text-left">';
-            content+='<th style="width: 11%">';
-            content+='Category';
-            content+='</th>';
-            content+='<th style="width: 12%">';
-            content+='Size';
-            content+='</th>';
-            content+='<th style="width: 57%">';
-            content+='Name';
-            content+='</th>';
-            content+='<th style="width: 11%">';
-            content+='Age';
-            content+='</th>';
-            content+='<th style="width: 9%">';
-            content+='Seeders';
-            content+='</th>';
-            content+='</thead>';
-            content+='<tbody>';
-
-             $.each(result.channel.item,function(index, value){
-                var today = new Date();
-                var pubDate= new Date(value.pubDate)
-                var secondDifference = today - new Date(value.pubDate);
-
-                pubDate = Putio_Function.millisecondsToString(secondDifference)
-
-                category=value.category.split(">")
-
-                content+='<tr class="send_to_putio" from="KAT" magnet="'+value.magnetURI+'">';
-                content+='<td>';
-                content+=category[0];
-                content+='</td>';
-                content+='<td>';
-                content+=Putio_Function.bytesToSize(value.contentLength,2);
-                content+='</td>';
-                content+='<td>';
-                content+='<strong>'+value.title+'</strong>';
-                content+='</td>';
-                content+='<td>';
-                content+=pubDate;
-                content+='</td>';
-                content+='<td>';
-                content+=value.seeds;
-                content+='</td>';
-                content+='</tr>';
-             })
-
-
-            content+='</tbody>';
-            content+='</table>';
-        }
-        else{
-            content+='<div class="alert alert-warning"><h4>Nothing found!</h4>';
-            content+='Your search "'+Kickasstorrents.query+'" did not match any documents.<div>';
-        }
-        $("#kat_result").html(content);
-    },
-
     displayLastMovies : function(result){
 
         //console.log(result);
@@ -398,7 +330,7 @@ Putio_Function = {
     },
 
     getDefaultFolderToDisplay : function(){
-        if($("#search_category").val()=="kickasstorrents" || $("#search_category").val()=="piratebay"){
+        if($("#search_category").val()=="piratebay"){
             switch($('input:radio[name=search_filter]:checked').val()){
                 case "all":
                     folder="default_folder_id";
@@ -808,10 +740,6 @@ Putio_Function = {
 
     search : function(callback){
 
-        if(!localStorage["searchCategory"]){
-            localStorage["searchCategory"]='kickasstorrents';
-        }
-
         if(!localStorage["searchFilter"]){
             localStorage["searchFilter"]='all';
         }
@@ -828,24 +756,11 @@ Putio_Function = {
             textareaStyle="none";
             inputStyle="inline-block";
         }
-        else if(localStorage["searchCategory"]=='kickasstorrents'){
-            placeholder="Search on KickassTorrents";
-            buttonText="Search"
-            textareaStyle="none";
-            inputStyle="inline-block";
-        }
         else if(localStorage["searchCategory"]=='torrent_link'){
             placeholder="";
             buttonText="Fetch"
             textareaStyle="inline-block";
             inputStyle="disabled";
-        }
-        else{
-            localStorage["searchCategory"]='kickasstorrents';
-            placeholder="Search on KickassTorrents";
-            buttonText="Search";
-            textareaStyle="none";
-            inputStyle="inline-block";
         }
 
         var content='';
@@ -853,7 +768,6 @@ Putio_Function = {
         content+='<div class="form-inline" id="search_form">';
 
         content+='<select id="search_category" class="select form-control">';
-        content+='<option value="kickasstorrents" >KAT</option>';
         content+='<option value="piratebay" >TPB</option>';
         content+='<option value="opensubtitle" >OS</option>';
         content+='<option value="torrent_link" >Links</option>';
