@@ -740,27 +740,37 @@ Putio_Function = {
 
     search : function(callback){
 
+        if(!localStorage["searchCategory"] || localStorage["searchCategory"] == 'kickasstorrents'){
+            localStorage["searchCategory"]='piratebay';
+        }
+
         if(!localStorage["searchFilter"]){
             localStorage["searchFilter"]='all';
         }
 
         if(localStorage["searchCategory"]=='opensubtitle'){
             placeholder="Search on OpenSubtitles";
-            buttonText="Search"
+            buttonText="Search";
             textareaStyle="none";
             inputStyle="inline-block";
         }
         else if(localStorage["searchCategory"]=='piratebay'){
             placeholder="Search on The Pirate Bay";
-            buttonText="Search"
+            buttonText="Search";
             textareaStyle="none";
             inputStyle="inline-block";
         }
         else if(localStorage["searchCategory"]=='torrent_link'){
             placeholder="";
-            buttonText="Fetch"
+            buttonText="Fetch";
             textareaStyle="inline-block";
             inputStyle="disabled";
+        }
+        else {
+            placeholder="Search on The Pirate Bay";
+            buttonText="Search";
+            textareaStyle="none";
+            inputStyle="inline-block";
         }
 
         var content='';
